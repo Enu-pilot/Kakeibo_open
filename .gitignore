@@ -1,0 +1,64 @@
+# See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
+
+# dependencies
+/node_modules
+/.pnp
+.pnp.*
+.yarn/*
+!.yarn/patches
+!.yarn/plugins
+!.yarn/releases
+!.yarn/versions
+
+# testing
+/coverage
+
+# next.js
+/.next/
+/out/
+
+# production
+/build
+
+# misc
+.DS_Store
+*.pem
+
+# debug
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+
+# env files (can opt-in for committing if needed)
+.env*
+# 雛形だけは配布する（中身はダミー値）
+!.env.example
+
+# vercel
+.vercel
+
+# typescript
+*.tsbuildinfo
+next-env.d.ts
+
+
+# local env
+.env
+.env.local
+
+# データベースのバックアップ（家計データそのものなので追跡しない）
+/backups
+
+# Google サービスアカウントの鍵（漏れるとスプレッドシートを読み書きされる）
+/secrets
+*service-account*.json
+# Google がダウンロードさせる鍵のファイル名は「プロジェクト名-英数字.json」なので、
+# うっかりリポジトリ直下に置いてもコミットされないよう、直下の JSON は既知のもの以外すべて無視する
+/*.json
+!/package.json
+!/package-lock.json
+!/tsconfig.json
+
+# 古い版（PostgreSQL 版）が自動生成していたコード。切り替えた Codespace に残っていても拾わない
+/src/generated

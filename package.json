@@ -1,0 +1,47 @@
+{
+  "name": "kakeibo",
+  "version": "0.1.0",
+  "private": true,
+  "scripts": {
+    "dev": "next dev -H 127.0.0.1",
+    "build": "next build",
+    "start": "next start -H 127.0.0.1",
+    "lint": "eslint",
+    "setup:env": "node scripts/setup-env.mjs",
+    "sheets:check": "tsx scripts/sheets-check.ts",
+    "db:seed": "tsx scripts/seed.ts",
+    "db:backup": "tsx scripts/backup.ts",
+    "db:restore": "tsx scripts/restore.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@digital-go-jp/tailwind-theme-plugin": "^1.0.1",
+    "clsx": "^2.1.1",
+    "date-fns": "^4.4.0",
+    "encoding-japanese": "^2.3.0",
+    "jose": "^6.2.10",
+    "lucide-react": "^1.37.0",
+    "next": "16.3.3",
+    "papaparse": "^5.7.0",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "recharts": "^3.10.1",
+    "tailwind-merge": "^3.6.0",
+    "zod": "^4.5.4"
+  },
+  "devDependencies": {
+    "@tailwindcss/postcss": "^4",
+    "@types/encoding-japanese": "^2.2.1",
+    "@types/node": "^20",
+    "@types/papaparse": "^5.5.2",
+    "@types/react": "^19",
+    "@types/react-dom": "^19",
+    "dotenv": "^17.4.2",
+    "eslint": "^9",
+    "eslint-config-next": "16.3.3",
+    "playwright": "^1.62.1",
+    "tailwindcss": "^4",
+    "tsx": "^4.23.13",
+    "typescript": "^5"
+  }
+}

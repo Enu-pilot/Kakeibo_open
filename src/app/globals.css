@@ -1,0 +1,164 @@
+@import "tailwindcss";
+/* デジタル庁デザインシステムのデザイントークン（色・文字・角丸・影）。
+   text-std-16N-170 のような文字スタイルや、key-900・solid-gray-600 などの色がここから来る */
+@import "@digital-go-jp/tailwind-theme-plugin/v4";
+
+/*
+ * 画面で使う意味づけの色。値はすべてデジタル庁デザインシステムの色から選んでいる。
+ * デザインシステムに暗い配色の定義が無いため、明るい配色だけを持つ。
+ */
+:root {
+  --bg: #f2f2f2; /* solid-gray-50 */
+  --surface: #ffffff;
+  --surface-2: #f2f2f2; /* solid-gray-50 */
+  --border: #949494; /* solid-gray-420: カード・表の罫線 */
+  --fg: #333333; /* solid-gray-800: 本文 */
+  --fg-muted: #666666; /* solid-gray-600: 補足テキスト */
+  --accent: #0017c1; /* key-900: 主ボタン・現在地 */
+  --accent-fg: #ffffff;
+
+  /* グラフ系列色: dataviz バリデータ（--pairs all）で全項目 PASS。
+     L 0.43-0.77 / chroma >= 0.1 / 通常視 ΔE >= 15 / 対背景 3:1 以上。
+     色覚特性の最小 ΔE は 7.3（支出↔生活費）で、凡例と数値ラベルを必ず併記する前提 */
+  --income: #197a4b; /* green-800 */
+  --expense: #ce0000; /* red-900 */
+  --living: #a58000; /* yellow-800 */
+  --investment: #8843e1; /* purple-600 */
+  /* 帳尻合わせは集計に効かない系列。グラフの系列としては使わず、目印にだけ使う */
+  --adjustment: #767676; /* solid-gray-536 */
+  /* 純残高は合成値なのでインク色の線で描き、系列色を1つ増やさない */
+  --net: #1a1a1a; /* solid-gray-900 */
+
+  /* 円グラフ: 1 色の濃淡で金額の大きさを表す（大きいほど濃い）。どの区分かは色ではなく
+     扇の横の名前と金額、下の一覧で示すので、月によって区分が変わっても隣り合う扇は見分けられる。
+     値はデザインシステムの blue / green から選び、dataviz バリデータ --ordinal で全項目 PASS
+     （明るい端も白の面に対して 2:1 以上）。
+     外側・大項目の円 = 使ったお金（blue）、二重円の内側 = 入ってきたお金（green）。 */
+  --pie-1: #000071; /* blue-1100 */
+  --pie-2: #0017c1; /* blue-900 */
+  --pie-3: #264af4; /* blue-700 */
+  --pie-4: #4979f5; /* blue-500 */
+  --pie-5: #7096f8; /* blue-400 */
+  --pie-in-1: #032213; /* green-1200 */
+  --pie-in-2: #0c472a; /* green-1000 */
+  --pie-in-3: #197a4b; /* green-800 */
+  --pie-in-4: #259d63; /* green-600 */
+  --pie-in-5: #71c598; /* green-300 */
+  /* その他（6 つ目以降をまとめた区分）は濃い灰色。どちらの輪の最も薄い段とも ΔE 30 以上離れる */
+  --pie-other: #4d4d4d; /* solid-gray-700 */
+  /* 貯金から／貯金へ（2 つの輪の差を埋める区分）はほぼ白の灰色。お金の「出どころ・行き先」ではなく
+     差であることを示す。隣り合う最も濃い段・最も薄い段と ΔE 14 以上離れることを確認済み。
+     面との差は小さいので、必ず名前と金額を添えて出す */
+  --pie-savings: #e6e6e6; /* solid-gray-100 */
+
+  /* 二人の月別推移（積み上げ棒）: 自分の負担 / 相手の負担。dataviz バリデータで全項目 PASS
+     （相手の負担は白の面に対して 2.8:1 の WARN のため、凡例・棒の上の合計・表を必ず添える） */
+  --pair-owner: #264af4; /* blue-700 */
+  --pair-partner: #7096f8; /* blue-400 */
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-border: var(--border);
+  --color-fg: var(--fg);
+  --color-fg-muted: var(--fg-muted);
+  --color-accent: var(--accent);
+  --color-accent-fg: var(--accent-fg);
+  --color-income: var(--income);
+  --color-expense: var(--expense);
+  --color-living: var(--living);
+  --color-investment: var(--investment);
+  --color-adjustment: var(--adjustment);
+  --color-net: var(--net);
+  /* Noto Sans JP は next/font で読み込み、その名前を変数で受け取る */
+  --font-sans: var(--font-noto-sans-jp), "Noto Sans JP", -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/*
+ * 文字サイズと角丸の段階を、デザインシステムの値に読み替える。
+ * 画面のクラス名（text-xs など）はそのままに、最小の文字を 14px、本文を 16px にそろえる。
+ */
+@theme {
+  --text-xs: 0.875rem; /* 14px: 表・補足など密度の高い所（dns-14） */
+  --text-xs--line-height: 1.5;
+  --text-sm: 1rem; /* 16px: 本文（std-16N-170） */
+  --text-sm--line-height: 1.7;
+  --text-base: 1rem;
+  --text-base--line-height: 1.7;
+  --radius-md: 0.25rem; /* 4 */
+  --radius-lg: 0.5rem; /* 8: ボタン・入力欄 */
+  --radius-xl: 0.75rem; /* 12: カード */
+}
+
+@layer base {
+  * {
+    border-color: var(--border);
+  }
+
+  body {
+    background: var(--bg);
+    color: var(--fg);
+    font-family: var(--font-sans);
+    font-size: 1rem;
+    line-height: 1.7;
+    letter-spacing: 0.02em;
+  }
+
+  /* フォーカスは黒い枠と黄色のリング（デザインシステム共通）。キーボード操作で必ず見える */
+  :where(a, button, summary, [tabindex]):focus-visible,
+  :where(input, select, textarea):focus {
+    outline: 4px solid var(--color-black);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 2px var(--color-yellow-300);
+  }
+
+  /* チェックボックス・ラジオはキーカラーで塗る */
+  input[type="checkbox"],
+  input[type="radio"] {
+    accent-color: var(--color-key-900);
+    width: 1.125rem;
+    height: 1.125rem;
+  }
+}
+
+/* 横スクロールする並び（メニュー・タブ）の中では、外側の枠が切れて見えなくなるので内側に描く。
+   背景も黄色にする（DADS の HorizontalMenu と同じ） */
+@utility focus-inset {
+  &:focus-visible {
+    outline-offset: -4px;
+    box-shadow: none;
+    background: var(--color-yellow-300);
+  }
+}
+
+/* 文中のリンク（デザインシステムの Link と同じ見た目） */
+@utility link {
+  color: var(--color-blue-1000);
+  text-decoration-line: underline;
+  text-underline-offset: 3px;
+  &:hover {
+    text-decoration-thickness: 3px;
+  }
+  &:active {
+    color: var(--color-orange-800);
+  }
+  &:focus-visible {
+    background: var(--color-yellow-300);
+    border-radius: 4px;
+  }
+}
+
+/* 金額は等幅の数字で桁を揃える */
+.tabular {
+  font-variant-numeric: tabular-nums;
+}
+
+/* まとめ表の固定列 */
+.sticky-col {
+  position: sticky;
+  left: 0;
+  background: var(--surface);
+  z-index: 1;
+}
